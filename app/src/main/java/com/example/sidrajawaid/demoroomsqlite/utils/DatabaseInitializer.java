@@ -18,27 +18,62 @@ public class DatabaseInitializer {
         task.execute();
     }
 
-    public static void populateSync(@NonNull final AppDatabase db) {
-        populateWithTestData(db);
-    }
+//    public static void populateSync(@NonNull final AppDatabase db) {
+//        populateWithTestData(db);
+//    }
 
     private static User addUser(final AppDatabase db, User user) {
         db.userDao().insertAll(user);
         return user;
     }
-
-    private static void populateWithTestData(AppDatabase db) {
+    public static void saveData(AppDatabase db,String fname,String lname,int age) {
+        //TODO:
         User user = new User();
-        user.setFirstName("Ajay");
-        user.setLastName("Saini");
-        user.setAge(25);
+        user.setFirstName(fname);
+        user.setLastName(lname);
+        user.setAge(age);
         addUser(db, user);
 
-        List<User> userList = db.userDao().getAll();
-        for(int i=0;i<=userList.size()-1;i++) {
-            //Log.d(DatabaseInitializer.TAG, "Rows Count: " + userList.size());
-        }
     }
+
+    private static User editUser(final AppDatabase db, User user) {
+        db.userDao().editUser(user);
+        return user;
+    }
+    public static void editData(AppDatabase db,String fname,String lname,int age) {
+        //TODO:
+        User user = new User();
+        user.setFirstName(fname);
+        user.setLastName(lname);
+        user.setAge(age);
+        editUser(db, user);
+
+    }
+
+    private static void deleteUser(final AppDatabase db, User user) {
+        db.userDao().delete(user);
+
+    }
+    public static void deleteData(AppDatabase db,String fname) {
+        //TODO:
+        User user1 = new User();
+        user1.setFirstName(fname);
+        deleteUser(db,user1);
+    }
+
+    private static List showUser(final AppDatabase db) {
+        List<User> userlist=db.userDao().getAll();
+        return userlist;
+
+    }
+    public static List showData(AppDatabase db) {
+        //TODO:
+        List<User> userList = showUser(db);
+        return userList;
+
+    }
+
+
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
@@ -50,7 +85,7 @@ public class DatabaseInitializer {
 
         @Override
         protected Void doInBackground(final Void... params) {
-            populateWithTestData(mDb);
+            //populateWithTestData(mDb);
             return null;
         }
 
